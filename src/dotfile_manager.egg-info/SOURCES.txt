@@ -1,0 +1,12 @@
+README.md
+setup.py
+scripts/dotfile_manager
+src/dotfile_manager/__init__.py
+src/dotfile_manager/core.py
+src/dotfile_manager/dotfile_manager.py
+src/dotfile_manager/version.py
+src/dotfile_manager.egg-info/PKG-INFO
+src/dotfile_manager.egg-info/SOURCES.txt
+src/dotfile_manager.egg-info/dependency_links.txt
+src/dotfile_manager.egg-info/requires.txt
+src/dotfile_manager.egg-info/top_level.txt
