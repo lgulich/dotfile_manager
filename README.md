@@ -10,6 +10,8 @@ pip install dotfile-manager
 
 ## Usage
 
+* Make sure your dotfiles are organized as described below.
+
 * Installing the dotfiles: This will install all the necessary dependencies for
   your dotfiles.
 
@@ -24,7 +26,7 @@ pip install dotfile-manager
   dotfile_manager setup
   ```
 
-## Configure your dotfiles for use with the dotfile manager
+## Organize your dotfiles for use with the dotfile manager
 
 The dotfiles are organised by project, where each project has its own top-level
 folder. A project may contain a file `dotfile_manager.yaml` which configures the
