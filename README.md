@@ -54,3 +54,20 @@ folder to your path to easily access these binaries.
 The entries of `source` will be added to a script in
 `${DOTFILES}/generated/sources.zsh`, such that you only have to source this file
 instead of sourcing all files individually.
+
+## Advanced
+
+To work correctly the dotfile manager needs to know where the repo with all your
+dotfiles is stored. Thus you need to run the `dotfile_manager [install|setup]`
+command from the directory where your dotfiles are stored. If you want to be
+able to run the dotfile manager from anywhere there are two options:
+
+* Use a command line argument:
+  ```sh
+  dotfile_manager -d <path/to/dotfiles/> install
+  ```
+* Use an environment variable:
+  ```sh
+  export DOTFILES=<path/to/dotfiles>
+  dotfile_manager install
+  ```
