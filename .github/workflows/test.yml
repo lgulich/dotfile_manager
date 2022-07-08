@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install python3.8 python3-pip git
+          python3.8 -m pip install dotfile-manager
+          export PATH="~/.local/bin:$PATH"
+      - name: Install dotfiles
+        run: |
+          git clone https://github.com/lgulich/dotfiles.git
+          export DOTFILES="$(pwd)"/dotfiles
+          dotfile_manager install
+      - name: Setup dotfiles
+        run: dotfile_manager setup
