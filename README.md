@@ -1,4 +1,4 @@
-# Dotfiles
+# Dotfiles [![CI](https://github.com/lgulich/dotfile_manager/actions/workflows/test.yml/badge.svg)](https://github.com/lgulich/dotfile_manager/actions/workflows/test.yml)
 
 A dotfile manager to easily reuse configurations between linux and macOS.
 
