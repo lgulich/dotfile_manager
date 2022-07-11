@@ -23,8 +23,7 @@ def main():
 
     args = parser.parse_args()
 
-    # If dotfiles path is not set via CLI we fallback to env variable and then
-    # current working directory.
+    # If dotfiles path is not set via CLI we fallback to env variable.
     dotfiles_path = args.dotfiles
     if dotfiles_path == '':
         if DOTFILES_PATH_ENV_VARIABLE in os.environ:
@@ -33,7 +32,7 @@ def main():
             dotfiles_path = Path(os.getcwd())
 
     if args.verb == 'install':
-        install_dependencies(dotfiles_path)
+        install(dotfiles_path)
         return
 
     if args.verb == 'setup':

@@ -27,20 +27,39 @@ class DotfileProject:
 
     def __init__(self, path: Path):
         self.path = path
+        self.name = self.path.name
+
+    def get_name(self) -> str:
+        return self.name
 
     def is_valid_project(self) -> bool:
         return self.path.is_dir() and (self.path / PROJECT_CONFIG_NAME).exists()
 
-    def install_dependencies(self):
-        os = get_os_name()
-        if os == 'macos':
-            install_script = self.path / 'install_macos.sh'
-        elif os == 'ubuntu':
-            install_script = self.path / 'install_ubuntu.sh'
+    def is_disabled(self) -> bool:
+        with open(self.path / PROJECT_CONFIG_NAME) as file:
+            try:
+                # This key is optional. If not specified we assume the project to be enabled.
+                is_disabled = yaml.load(file, Loader=yaml.FullLoader)[f'disable']
+                return is_disabled
+            except KeyError:
+                return False
 
-        if install_script.exists():
-            subprocess.run(install_script)
-            print(f'Successfully installed project {self.path.name}')
+    def install(self):
+        os = get_os_name()
+        self.install_for_os(os)
+        print(f'Successfully installed project {self.name}.')
+
+    def install_for_os(self, os):
+        with open(self.path / PROJECT_CONFIG_NAME) as file:
+            try:
+                install_scripts = yaml.load(file, Loader=yaml.FullLoader)[f'install_{os}']
+            except KeyError:
+                return
+
+            for install_script in install_scripts:
+                script = self.path / install_script
+                assert script.exists(), script
+                subprocess.run(script)
 
     def create_symbolic_links(self):
         with open(self.path / PROJECT_CONFIG_NAME) as file:
@@ -91,20 +110,28 @@ class DotfileProject:
                 print(f'Added {source_path} to sourcing script.')
 
 
-def install_dependencies(dotfiles: Path) -> None:
+def install(dotfiles: Path) -> None:
     for child in dotfiles.iterdir():
         project = DotfileProject(child)
-        if project.is_valid_project():
-            project.install_dependencies()
-    print('Successfully all projects.')
+        if not project.is_valid_project():
+            continue
+        if project.is_disabled():
+            print(f'Project {project.get_name()} is disabled - Skipping.')
+            continue
+        project.install()
+    print('Successfully installed all projects.')
 
 
 def create_symbolic_links(dotfiles: Path) -> None:
     for child in dotfiles.iterdir():
         project = DotfileProject(child)
-        if project.is_valid_project():
-            project.create_symbolic_links()
-    print('Successfully installed symlinks to all dotfiles.')
+        if not project.is_valid_project():
+            continue
+        if project.is_disabled():
+            print(f'Project {project.get_name()} is disabled - Skipping.')
+            continue
+        project.create_symbolic_links()
+    print('Successfully setup symlinks to all dotfiles.')
 
 
 def create_bin(dotfiles: Path) -> None:
@@ -113,10 +140,13 @@ def create_bin(dotfiles: Path) -> None:
     destination.mkdir(parents=True)
     for child in dotfiles.iterdir():
         project = DotfileProject(child)
-        if project.is_valid_project():
-            project.create_bin(destination)
-
-    print('Successfully installed symlinks to all binaries.')
+        if not project.is_valid_project():
+            continue
+        if project.is_disabled():
+            print(f'Project {project.get_name()} is disabled - Skipping.')
+            continue
+        project.create_bin(destination)
+    print('Successfully setup symlinks to all binaries.')
 
 
 def create_sources(dotfiles: Path) -> None:
@@ -130,6 +160,10 @@ def create_sources(dotfiles: Path) -> None:
 
         for child in dotfiles.iterdir():
             project = DotfileProject(child)
-            if project.is_valid_project():
-                project.create_sources(output_file)
-    print(f'Successfully created sourcing file at {destination}.')
+            if not project.is_valid_project():
+                continue
+            if project.is_disabled():
+                print(f'Project {project.get_name()} is disabled - Skipping.')
+                continue
+            project.create_sources(output_file)
+    print(f'Successfully created sourcing script at {destination}.')

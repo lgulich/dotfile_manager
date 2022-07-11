@@ -29,10 +29,16 @@ pip install dotfile-manager
 ## Organize your dotfiles for use with the dotfile manager
 
 The dotfiles are organised by project, where each project has its own top-level
-folder. A project may contain a file `dotfile_manager.yaml` which configures the
+folder. A project has to contain a file `dotfile_manager.yaml` which configures the
 dotfile manager. It is setup as follows:
 
 ```yaml
+install_macos:
+  - install_macos.sh
+
+install_ubuntu:
+  - install_ubuntu.sh
+
 symlink:
   zshrc.zsh: ~/.zshrc
 
@@ -43,6 +49,10 @@ source:
   - aliases.sh
   - helpers.sh
 ```
+
+The entries of `install_macos` configure what scripts are used to install this project on macos.
+`install_ubuntu` does the same for ubuntu. Multiple scripts can be provided and they are executed in
+the order as specified in the yaml file.
 
 The entries of `symlink` configures where the files will be symlinked to, the
 key is the path of the file inside the topic folder, the value is the global
