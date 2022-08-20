@@ -1,0 +1,1 @@
+export SOURCED_TOPIC_B=TRUE

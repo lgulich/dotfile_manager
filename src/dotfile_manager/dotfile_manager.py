@@ -1,7 +1,8 @@
 import argparse
 
-from dotfile_manager.core import *
+from dotfile_manager.repo import DotfilesRepo
 from dotfile_manager.version import __version__
+from dotfile_manager.config import DOTFILES_PATH_ENV_VARIABLE
 
 def main():
     parser = argparse.ArgumentParser(
@@ -31,12 +32,11 @@ def main():
         else:
             dotfiles_path = Path(os.getcwd())
 
+    DotfilesRepo dotfiles(dotfiles_path)
     if args.verb == 'install':
-        install(dotfiles_path)
+        dotfiles.install()
         return
 
     if args.verb == 'setup':
-        create_symbolic_links(dotfiles_path)
-        create_bin(dotfiles_path)
-        create_sources(dotfiles_path)
+        dotfiles.setup()
         return
