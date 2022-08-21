@@ -14,7 +14,7 @@ setuptools.setup(
     author='Lionel Gulich',
     author_email='lgulich@ethz.ch',
     url='https://github.com/lgulich/dotfile_manager',
-    description= 'A tool for managing dotfiles for linux and macos.',
+    description='A tool for managing dotfiles for linux and macos.',
     long_description=LONG_DESCRIPTION,
     long_description_content_type='text/markdown',
     install_requires=['pyyaml'],

@@ -7,6 +7,7 @@ import shutil
 from dotfile_manager.config import BIN_PATH, SOURCE_FILE_PATH
 from dotfile_manager.project import DotfileProject
 
+
 def get_os_name() -> str:
     platform_name = platform.system()
     # TODO(lgulich): Find way to also determine linux distro.
@@ -16,14 +17,16 @@ def get_os_name() -> str:
         return 'macos'
     raise
 
+
 class DotfilesRepo:
+
     def __init__(self, path: Path) -> None:
-        self.path : Path = path
+        self.path: Path = path
 
     def get_path(self) -> Path:
         return self.path
 
-    def install(self, os_name = get_os_name()) -> None:
+    def install(self, os_name=get_os_name()) -> None:
         for project_path in self.path.iterdir():
             project = DotfileProject(project_path)
             if not project.is_valid_project():
@@ -50,7 +53,6 @@ class DotfilesRepo:
             project.create_symbolic_links()
         print('Successfully setup symlinks to all dotfiles.')
 
-
     def _create_bin(self) -> None:
         destination = Path(self.path / BIN_PATH)
         shutil.rmtree(destination, ignore_errors=True)
@@ -64,7 +66,6 @@ class DotfilesRepo:
                 continue
             project.create_bin(destination)
         print('Successfully setup symlinks to all binaries.')
-
 
     def _create_sources(self) -> None:
         destination = self.path / SOURCE_FILE_PATH
@@ -80,7 +81,8 @@ class DotfilesRepo:
                 if not project.is_valid_project():
                     continue
                 if project.is_disabled():
-                    print(f'Project {project.get_name()} is disabled - Skipping.')
+                    print(
+                        f'Project {project.get_name()} is disabled - Skipping.')
                     continue
                 project.create_sources(output_file)
         print(f'Successfully created sourcing script at {destination}.')

@@ -7,6 +7,7 @@ import yaml
 
 from dotfile_manager.config import PROJECT_CONFIG_NAME
 
+
 class DotfileProject:
 
     def __init__(self, path: Path):
@@ -23,7 +24,8 @@ class DotfileProject:
         with open(self.path / PROJECT_CONFIG_NAME) as file:
             try:
                 # This key is optional. If not specified we assume the project to be enabled.
-                is_disabled = yaml.load(file, Loader=yaml.FullLoader)[f'disable']
+                is_disabled = yaml.load(file,
+                                        Loader=yaml.FullLoader)[f'disable']
                 return is_disabled
             except KeyError:
                 return False
@@ -31,7 +33,8 @@ class DotfileProject:
     def install(self, os):
         with open(self.path / PROJECT_CONFIG_NAME) as file:
             try:
-                install_scripts = yaml.load(file, Loader=yaml.FullLoader)[f'install_{os}']
+                install_scripts = yaml.load(
+                    file, Loader=yaml.FullLoader)[f'install_{os}']
             except KeyError:
                 return
 
@@ -59,7 +62,7 @@ class DotfileProject:
 
                 os.symlink(source_path, destination_path)
                 print(f'Created symlink from {source_path} to '
-                        f'{destination_path}.')
+                      f'{destination_path}.')
 
     def create_bin(self, destination_folder):
         with open(self.path / PROJECT_CONFIG_NAME) as file:
@@ -89,4 +92,3 @@ class DotfileProject:
 
                 output_file.write(f'. {source_path}\n')
                 print(f'Added {source_path} to sourcing script.')
-

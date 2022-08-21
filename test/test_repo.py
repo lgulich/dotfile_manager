@@ -7,7 +7,6 @@ import shutil
 from dotfile_manager.repo import DotfilesRepo
 
 
-
 class DotfilesRepoTest(unittest.TestCase):
 
     def setUp(self):
@@ -27,7 +26,7 @@ class DotfilesRepoTest(unittest.TestCase):
         for marker_file in source_markers:
             os.remove(marker_file)
 
-        shutil.rmtree(self.repo.path/'generated', ignore_errors=True)
+        shutil.rmtree(self.repo.path / 'generated', ignore_errors=True)
 
     def test_install_macos(self):
         self.repo.install('macos')
@@ -47,9 +46,15 @@ class DotfilesRepoTest(unittest.TestCase):
         self.repo.setup()
 
         # Test that binaries are available:
-        self.assertTrue(os.path.exists(self.repo.get_path()/'generated/bin/executable_from_a.sh'))
-        self.assertTrue(os.path.exists(self.repo.get_path()/'generated/bin/executable_from_b.sh'))
-        self.assertFalse(os.path.exists(self.repo.get_path()/'generated/bin/executable_from_c.sh'))
+        self.assertTrue(
+            os.path.exists(self.repo.get_path() /
+                           'generated/bin/executable_from_a.sh'))
+        self.assertTrue(
+            os.path.exists(self.repo.get_path() /
+                           'generated/bin/executable_from_b.sh'))
+        self.assertFalse(
+            os.path.exists(self.repo.get_path() /
+                           'generated/bin/executable_from_c.sh'))
 
         # Test that proper files are sourced:
         os.system(f'sh {self.repo.get_path()/"generated/sources.sh"}')
@@ -61,7 +66,6 @@ class DotfilesRepoTest(unittest.TestCase):
         self.assertTrue(os.path.exists('~/symlink_from_a.txt'))
         self.assertTrue(os.path.exists('~/symlink_from_b.txt'))
         self.assertFalse(os.path.exists('~/symlink_from_c.txt'))
-
 
 
 if __name__ == '__main__':
