@@ -30,7 +30,8 @@ pip install dotfile-manager
 
 ## Organize your dotfiles for use with the dotfile manager
 
-A minimal example of how to organize your dotfiles can be seen [here](test/test_data/dotfiles_repo) a real-life example [here](https://github.com/lgulich/dotfiles).
+A minimal example of how to organize your dotfiles can be seen [here](test/test_data/dotfiles_repo),
+a real-life example [here](https://github.com/lgulich/dotfiles).
 
 The dotfiles are organised by project, where each project has its own top-level
 folder. A project has to contain a file `dotfile_manager.yaml` which configures the
@@ -60,17 +61,21 @@ The entries of `install_macos` configure what scripts are used to install this p
 `install_ubuntu` does the same for ubuntu. Multiple scripts can be provided and they are executed in
 the order as specified in the yaml file.
 
-The entries of `symlinks` configure where the files will be symlinked to, the
-key is the path of the file inside the topic folder, the value is the global
-path where the file will be symlinked to. Use this to setup configuration files that need to be at a specific location (for example `.bashrc` which has to be in `~/`). It is possible to use `~` to specify the path of files that need to go to a user's ``$HOME` folder.
+The entries of `symlinks` configure where the files will be symlinked to, the key is the path of the
+file inside the topic folder, the value is the global path where the file will be symlinked to. Use
+this to setup configuration files that need to be at a specific location (for example `.bashrc`
+which has to be in `~/`). It is possible to use `~` to specify the path of files that need to go to
+a user's ``$HOME` folder.
 
-The entries of `bin` will be symlinked to `${DOTFILES}/generated/bin/`. Add the latter to your `$PATH` to easily execute these binaries from everywhere.
+The entries of `bin` will be symlinked to `${DOTFILES}/generated/bin/`. Add the latter to your
+`$PATH` to easily execute these binaries from everywhere.
 
 The entries of `source` will be added to a script in
 `${DOTFILES}/generated/sources.zsh`, such that you only have to source this file
 instead of sourcing all files individually.
 
-Lastly `disable` can be used to disable a dotfile project. If this is set to true this project will be skipped during installation and setup.
+Lastly `disable` can be used to disable a dotfile project. If this is set to true this project will
+be skipped during installation and setup.
 
 All these entries are optional. If you don't need them you can simply omit them.
 
