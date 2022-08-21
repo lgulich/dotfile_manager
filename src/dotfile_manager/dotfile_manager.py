@@ -7,12 +7,25 @@ from dotfile_manager.version import __version__
 from dotfile_manager.config import DOTFILES_PATH_ENV_VARIABLE
 
 
+
+def selectDotfilesPath(cli_argument:str) -> Path:
+    # We fallback to dotfiles path with the highest priority. Priority is
+    # cli_argument > environment variable > current working directory.
+    if cli_argument:
+        return Path(cli_argument)
+
+    if DOTFILES_PATH_ENV_VARIABLE in os.environ:
+        return Path(os.environ[DOTFILES_PATH_ENV_VARIABLE])
+
+    return Path(os.getcwd())
+
+
 def main():
     parser = argparse.ArgumentParser(description='Tool for managing dotfiles for linux and macos.')
     parser.add_argument('-d',
                         '--dotfiles',
                         type=str,
-                        default='',
+                        default=None,
                         help='Path to the dotfiles repository')
     parser.add_argument('-v',
                         '--version',
@@ -28,13 +41,7 @@ def main():
 
     args = parser.parse_args()
 
-    # If dotfiles path is not set via CLI we fallback to env variable.
-    dotfiles_path = Path(args.dotfiles)
-    if dotfiles_path == '':
-        if DOTFILES_PATH_ENV_VARIABLE in os.environ:
-            dotfiles_path = Path(os.environ[DOTFILES_PATH_ENV_VARIABLE])
-        else:
-            dotfiles_path = Path(os.getcwd())
+    dotfiles_path = selectDotfilesPath(args.dotfiles)
 
     dotfiles = DotfilesRepo(dotfiles_path)
     if args.verb == 'install':

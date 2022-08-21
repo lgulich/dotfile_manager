@@ -58,7 +58,7 @@ class DotfilesRepo:
                 if project.is_disabled():
                     print(f'Project {project.get_name()} is disabled - Skipping.')
                     continue
-                print(f'Setting up {project.get_name()}.')
+                print(f'Setting up {project.get_name()}:')
                 project.create_symbolic_links()
                 project.create_bin(bin_path)
                 project.create_sources(output_file)
