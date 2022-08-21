@@ -1,4 +1,4 @@
-# Dotfile Manager
+# Dotfile Manager [![Python package](https://github.com/lgulich/dotfile_manager/actions/workflows/python-package.yml/badge.svg)](https://github.com/lgulich/dotfile_manager/actions/workflows/python-package.yml)
 
 A dotfile manager to easily reuse configurations between linux and macOS.
 
