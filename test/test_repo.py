@@ -22,6 +22,11 @@ class DotfilesRepoTest(unittest.TestCase):
         install_markers = glob.glob('topic_*_install_*.txt', recursive=False)
         for marker_file in install_markers:
             os.remove(marker_file)
+
+        source_markers = glob.glob('topic_*_source.txt', recursive=False)
+        for marker_file in source_markers:
+            os.remove(marker_file)
+
         shutil.rmtree(self.repo.path/'generated', ignore_errors=True)
 
     def test_install_macos(self):
@@ -46,12 +51,16 @@ class DotfilesRepoTest(unittest.TestCase):
         self.assertTrue(os.path.exists(self.repo.get_path()/'generated/bin/executable_from_b.sh'))
         self.assertFalse(os.path.exists(self.repo.get_path()/'generated/bin/executable_from_c.sh'))
 
-        # TODO(lgulich): Test that proper files are sourced:
+        # Test that proper files are sourced:
+        os.system(f'sh {self.repo.get_path()/"generated/sources.sh"}')
+        self.assertTrue(os.path.exists('topic_a_source.txt'))
+        self.assertTrue(os.path.exists('topic_b_source.txt'))
+        self.assertFalse(os.path.exists('topic_c_source.txt'))
 
-        # Test that symlinks are available:
-        self.assertTrue(os.path.exists('~/symlink_replica_from_a.txt'))
-        self.assertTrue(os.path.exists('~/symlink_replica_from_b.txt'))
-        self.assertFalse(os.path.exists('~/symlink_replica_from_c.txt'))
+        # TODO(lgulich) Test that symlinks are available:
+        self.assertTrue(os.path.exists('~/symlink_from_a.txt'))
+        self.assertTrue(os.path.exists('~/symlink_from_b.txt'))
+        self.assertFalse(os.path.exists('~/symlink_from_c.txt'))
 
 
 

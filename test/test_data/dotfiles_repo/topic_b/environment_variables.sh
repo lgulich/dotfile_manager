@@ -1,1 +1,2 @@
-export SOURCED_TOPIC_B=TRUE
+echo "Sourcing topic b."
+touch topic_b_source.txt
