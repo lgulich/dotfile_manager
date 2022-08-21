@@ -9,7 +9,7 @@ from dotfile_manager.config import PROJECT_CONFIG_NAME
 
 class DotfileProject:
 
-    def __init__(self, path: Path):
+    def __init__(self, path: Path) -> None:
         self.path = path
         self.name = self.path.name
 
@@ -28,11 +28,10 @@ class DotfileProject:
             except KeyError:
                 return False
 
-    def install(self, os):
+    def install(self, os) -> None:
         with open(self.path / PROJECT_CONFIG_NAME) as file:
             try:
-                install_scripts = yaml.load(
-                    file, Loader=yaml.FullLoader)[f'install_{os}']
+                install_scripts = yaml.load(file, Loader=yaml.FullLoader)[f'install_{os}']
             except KeyError:
                 return
 
@@ -43,11 +42,12 @@ class DotfileProject:
 
         print(f'Successfully installed project {self.name} for {os}.')
 
-    def create_symbolic_links(self):
+    def create_symbolic_links(self) -> None:
         with open(self.path / PROJECT_CONFIG_NAME) as file:
             try:
                 symlinks = yaml.load(file, Loader=yaml.FullLoader)['symlinks']
             except KeyError:
+                print('No configured symlinks found.')
                 return
 
             for source, destination in symlinks.items():
@@ -62,11 +62,12 @@ class DotfileProject:
                 print(f'Created symlink from {source_path} to '
                       f'{destination_path}.')
 
-    def create_bin(self, destination_folder):
+    def create_bin(self, destination_folder: Path) -> None:
         with open(self.path / PROJECT_CONFIG_NAME) as file:
             try:
                 binaries = yaml.load(file, Loader=yaml.FullLoader)['bin']
             except KeyError:
+                print('No configured binaries found.')
                 return
 
             for binary in binaries:
@@ -77,11 +78,12 @@ class DotfileProject:
                 os.symlink(binary_path, destination)
                 print(f'Created symlink from {binary_path} to {destination}.')
 
-    def create_sources(self, output_file):
+    def create_sources(self, output_file) -> None:
         with open(self.path / PROJECT_CONFIG_NAME) as file:
             try:
                 source_files = yaml.load(file, Loader=yaml.FullLoader)['source']
             except KeyError:
+                print('No configured sourcing files found.')
                 return
 
             for source_file in source_files:

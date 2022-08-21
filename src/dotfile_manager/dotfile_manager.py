@@ -8,8 +8,7 @@ from dotfile_manager.config import DOTFILES_PATH_ENV_VARIABLE
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description='Tool for managing dotfiles for linux and macos.')
+    parser = argparse.ArgumentParser(description='Tool for managing dotfiles for linux and macos.')
     parser.add_argument('-d',
                         '--dotfiles',
                         type=str,
@@ -25,13 +24,12 @@ def main():
     verb_parser.required = True
 
     _ = verb_parser.add_parser('setup', help='Setup dotfiles')
-    _ = verb_parser.add_parser('install',
-                               help='Install dependencies of dotfiles')
+    _ = verb_parser.add_parser('install', help='Install dependencies of dotfiles')
 
     args = parser.parse_args()
 
     # If dotfiles path is not set via CLI we fallback to env variable.
-    dotfiles_path = args.dotfiles
+    dotfiles_path = Path(args.dotfiles)
     if dotfiles_path == '':
         if DOTFILES_PATH_ENV_VARIABLE in os.environ:
             dotfiles_path = Path(os.environ[DOTFILES_PATH_ENV_VARIABLE])
