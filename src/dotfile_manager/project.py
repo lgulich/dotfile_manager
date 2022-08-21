@@ -1,5 +1,4 @@
 import os
-import shutil
 from pathlib import Path
 import subprocess
 
@@ -24,8 +23,7 @@ class DotfileProject:
         with open(self.path / PROJECT_CONFIG_NAME) as file:
             try:
                 # This key is optional. If not specified we assume the project to be enabled.
-                is_disabled = yaml.load(file,
-                                        Loader=yaml.FullLoader)[f'disable']
+                is_disabled = yaml.load(file, Loader=yaml.FullLoader)['disable']
                 return is_disabled
             except KeyError:
                 return False

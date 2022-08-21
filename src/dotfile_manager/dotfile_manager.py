@@ -24,9 +24,9 @@ def main():
     verb_parser = parser.add_subparsers(dest='verb')
     verb_parser.required = True
 
-    setup_parser = verb_parser.add_parser('setup', help='Setup dotfiles')
-    install_parser = verb_parser.add_parser(
-        'install', help='Install dependencies of dotfiles')
+    _ = verb_parser.add_parser('setup', help='Setup dotfiles')
+    _ = verb_parser.add_parser('install',
+                               help='Install dependencies of dotfiles')
 
     args = parser.parse_args()
 
