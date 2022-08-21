@@ -3,7 +3,7 @@ disable: true
 install_macos:
   - install.sh
 
-symlink:
+symlinks:
   symlink_original.txt: ~/symlink_replica_from_c.txt
 
 source:

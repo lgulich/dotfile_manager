@@ -5,7 +5,7 @@ install_macos:
 install_ubuntu:
   - install_ubuntu.sh
 
-symlink:
+symlinks:
   symlink_original.txt: ~/symlink_replica_from_a.txt
 
 bin:

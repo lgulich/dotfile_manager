@@ -45,27 +45,23 @@ class DotfilesRepoTest(unittest.TestCase):
     def test_setup(self):
         self.repo.setup()
 
-        # Test that binaries are available:
-        self.assertTrue(
-            os.path.exists(self.repo.get_path() /
-                           'generated/bin/executable_from_a.sh'))
-        self.assertTrue(
-            os.path.exists(self.repo.get_path() /
-                           'generated/bin/executable_from_b.sh'))
-        self.assertFalse(
-            os.path.exists(self.repo.get_path() /
-                           'generated/bin/executable_from_c.sh'))
+        # Test that generated symlinks to binaries are available:
+        self.assertTrue(os.path.exists(self.repo.get_path() / 'generated/bin/executable_from_a.sh'))
+        self.assertTrue(os.path.exists(self.repo.get_path() / 'generated/bin/executable_from_b.sh'))
+        self.assertFalse(os.path.exists(self.repo.get_path() /
+                                        'generated/bin/executable_from_c.sh'))
+
+        # Test that generated symlinks to general files are available:
+        home = Path.home()
+        self.assertTrue(os.path.exists(home / 'symlink_replica_from_a.txt'))
+        self.assertTrue(os.path.exists(home / 'symlink_replica_from_b.txt'))
+        self.assertFalse(os.path.exists(home / 'symlink_replica_from_c.txt'))
 
         # Test that proper files are sourced:
         os.system(f'sh {self.repo.get_path()/"generated/sources.sh"}')
         self.assertTrue(os.path.exists('topic_a_source.txt'))
         self.assertTrue(os.path.exists('topic_b_source.txt'))
         self.assertFalse(os.path.exists('topic_c_source.txt'))
-
-        # TODO(lgulich) Test that symlinks are available:
-        # self.assertTrue(os.path.exists('~/symlink_from_a.txt'))
-        # self.assertTrue(os.path.exists('~/symlink_from_b.txt'))
-        # self.assertFalse(os.path.exists('~/symlink_from_c.txt'))
 
 
 if __name__ == '__main__':
