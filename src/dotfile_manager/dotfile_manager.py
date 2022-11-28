@@ -2,15 +2,16 @@ from pathlib import Path
 import argparse
 import os
 
-from dotfile_manager.repo import DotfilesRepo
+from dotfile_manager.repo import Repo
 from dotfile_manager.version import __version__
 from dotfile_manager.config import DOTFILES_PATH_ENV_VARIABLE
 
 
-
-def selectDotfilesPath(cli_argument:str) -> Path:
-    # We fallback to dotfiles path with the highest priority. Priority is
-    # cli_argument > environment variable > current working directory.
+def select_dotfiles_path(cli_argument: str) -> Path:
+    """
+    Select the correct dotfiles path by falling back to the config with the highest priority.
+    Priority is cli_argument > environment variable > current working directory.
+    """
     if cli_argument:
         return Path(cli_argument)
 
@@ -41,9 +42,9 @@ def main():
 
     args = parser.parse_args()
 
-    dotfiles_path = selectDotfilesPath(args.dotfiles)
+    dotfiles_path = select_dotfiles_path(args.dotfiles)
 
-    dotfiles = DotfilesRepo(dotfiles_path)
+    dotfiles = Repo(dotfiles_path)
     if args.verb == 'install':
         dotfiles.install()
         return

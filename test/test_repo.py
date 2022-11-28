@@ -4,14 +4,14 @@ from pathlib import Path
 import glob
 import shutil
 
-from dotfile_manager.repo import DotfilesRepo
+from dotfile_manager.repo import Repo
 
 
 class DotfilesRepoTest(unittest.TestCase):
 
     def setUp(self):
         repo_path = Path(__file__).parent / 'test_data/dotfiles_repo'
-        self.repo = DotfilesRepo(repo_path)
+        self.repo = Repo(repo_path)
         self._clean()
 
     def tearDown(self):

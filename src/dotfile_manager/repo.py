@@ -4,7 +4,7 @@ import platform
 import shutil
 
 from dotfile_manager.config import BIN_PATH, SOURCE_FILE_PATH
-from dotfile_manager.project import DotfileProject
+from dotfile_manager.project import Project
 
 
 def get_os_name() -> str:
@@ -17,7 +17,7 @@ def get_os_name() -> str:
     raise
 
 
-class DotfilesRepo:
+class Repo:
 
     def __init__(self, path: Path) -> None:
         self.path: Path = path
@@ -27,7 +27,7 @@ class DotfilesRepo:
 
     def install(self, os_name=get_os_name()) -> None:
         for project_path in sorted(self.path.iterdir()):
-            project = DotfileProject(project_path)
+            project = Project(project_path)
             if not project.is_valid_project():
                 continue
             if project.is_disabled():
@@ -52,7 +52,7 @@ class DotfilesRepo:
 
             # Setup every project individually:
             for project_path in sorted(self.path.iterdir()):
-                project = DotfileProject(project_path)
+                project = Project(project_path)
                 if not project.is_valid_project():
                     continue
                 if project.is_disabled():
@@ -61,7 +61,7 @@ class DotfilesRepo:
                 print(f'Setting up {project.get_name()}:')
                 project.create_symbolic_links()
                 project.create_bin(bin_path)
-                project.create_sources(output_file)
+                project.add_sources(output_file)
 
         print(f'Successfully setup all projects. Sourcing script created at "{source_file_path}". '
               f'Binaries located at "{bin_path}".')

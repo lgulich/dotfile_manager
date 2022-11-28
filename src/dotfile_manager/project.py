@@ -7,7 +7,7 @@ import yaml
 from dotfile_manager.config import PROJECT_CONFIG_NAME
 
 
-class DotfileProject:
+class Project:
 
     def __init__(self, path: Path) -> None:
         self.path = path
@@ -59,8 +59,7 @@ class DotfileProject:
                 destination_path.unlink(missing_ok=True)
 
                 os.symlink(source_path, destination_path)
-                print(f'Created symlink from {source_path} to '
-                      f'{destination_path}.')
+                print(f'Created symlink from {source_path} to {destination_path}.')
 
     def create_bin(self, destination_folder: Path) -> None:
         with open(self.path / PROJECT_CONFIG_NAME) as file:
@@ -78,7 +77,7 @@ class DotfileProject:
                 os.symlink(binary_path, destination)
                 print(f'Created symlink from {binary_path} to {destination}.')
 
-    def create_sources(self, output_file) -> None:
+    def add_sources(self, output_file) -> None:
         with open(self.path / PROJECT_CONFIG_NAME) as file:
             try:
                 source_files = yaml.load(file, Loader=yaml.FullLoader)['source']
@@ -91,4 +90,4 @@ class DotfileProject:
                 assert source_path.exists(), source_path
 
                 output_file.write(f'. {source_path}\n')
-                print(f'Added {source_path} to sourcing script.')
+                print(f'Added {source_path} to sourced in {source_path}.')
