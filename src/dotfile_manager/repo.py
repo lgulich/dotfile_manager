@@ -2,6 +2,7 @@ from datetime import datetime
 from pathlib import Path
 import platform
 import shutil
+import os
 
 from dotfile_manager.config import BIN_PATH, SOURCE_FILE_PATH
 from dotfile_manager.project import Project
@@ -25,18 +26,21 @@ class Repo:
     def get_path(self) -> Path:
         return self.path
 
-    def install(self, os_name=get_os_name()) -> None:
+    def install_all(self, os_name: str = get_os_name()) -> None:
         for project_path in sorted(self.path.iterdir()):
-            project = Project(project_path)
-            if not project.is_valid_project():
-                continue
-            if project.is_disabled():
-                print(f'Project {project.get_name()} is disabled - Skipping.')
-                continue
-            project.install(os_name)
+            self.install(os.path.basename(project_path), os_name)
         print('Successfully installed all projects.')
 
-    def setup(self) -> None:
+    def install(self, project_name: str, os_name: str = get_os_name()) -> None:
+            project = Project(self.path / project_name)
+            if not project.is_valid_project():
+                return
+            if project.is_disabled():
+                print(f'Project {project.get_name()} is disabled - Skipping.')
+                return
+            project.install(os_name)
+
+    def setup_all(self) -> None:
         # Create folder into which all binaries will be symlinked.
         bin_path = self.path / BIN_PATH
         shutil.rmtree(bin_path, ignore_errors=True)
