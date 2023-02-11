@@ -10,4 +10,5 @@ source:
   - environment_variables.sh
 
 bin:
-  - executable_from_b.sh
+  - executable_from_c.sh
+  - helpers/another_executable_from_c.sh

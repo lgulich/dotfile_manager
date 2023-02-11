@@ -73,7 +73,8 @@ class Project:
                 binary_path = self.path / binary
                 assert binary_path.exists(), binary_path
 
-                destination = destination_folder / binary
+                # Use only binary_path.name s.t. we ignore the path if it is in a subfolder.
+                destination = destination_folder / binary_path.name
                 os.symlink(binary_path, destination)
                 print(f'Created symlink from {binary_path} to {destination}.')
 

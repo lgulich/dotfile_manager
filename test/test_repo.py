@@ -62,8 +62,12 @@ class DotfilesRepoTest(unittest.TestCase):
         # Test that generated symlinks to binaries are available:
         self.assertTrue(os.path.exists(self.repo.get_path() / 'generated/bin/executable_from_a.sh'))
         self.assertTrue(os.path.exists(self.repo.get_path() / 'generated/bin/executable_from_b.sh'))
-        self.assertFalse(os.path.exists(self.repo.get_path() /
-                                        'generated/bin/executable_from_c.sh'))
+        self.assertTrue(os.path.exists(
+            self.repo.get_path() / 'generated/bin/another_executable_from_b.sh'))
+        self.assertFalse(os.path.exists(
+            self.repo.get_path() / 'generated/bin/executable_from_c.sh'))
+        self.assertFalse(os.path.exists(
+            self.repo.get_path() / 'generated/bin/another_executable_from_c.sh'))
 
         # Test that generated symlinks to general files are available:
         home = Path.home()
