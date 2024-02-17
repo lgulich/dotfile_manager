@@ -3,4 +3,5 @@ build/
 *.egg-info/
 __pycache__/
 test/test_data/generated/
+.pytest_cache/
 .DS_Store

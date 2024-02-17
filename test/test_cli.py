@@ -1,4 +1,3 @@
-import os
 import unittest
 from pathlib import Path
 
@@ -6,6 +5,7 @@ from dotfile_manager.cli import create_parser, get_default_dotfiles_path
 
 
 class CliTest(unittest.TestCase):
+    """ Test the CLI interface of the dotfile manager. """
 
     def setUp(self):
         self.parser = create_parser()

@@ -8,6 +8,7 @@ from dotfile_manager.repo import Repo
 
 
 class DotfilesRepoTest(unittest.TestCase):
+    """ Test the dotfiles 'Repo' class. """
 
     def setUp(self):
         repo_path = Path(__file__).parent / 'test_data/dotfiles_repo'
@@ -29,28 +30,28 @@ class DotfilesRepoTest(unittest.TestCase):
         shutil.rmtree(self.repo.path / 'generated', ignore_errors=True)
 
     def test_install_all_macos(self):
-        self.repo.install_all('macos')
+        self.repo.install_all(os_name='macos')
         self.assertTrue(os.path.exists('topic_a_install_macos.txt'))
         self.assertTrue(os.path.exists('topic_b_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_c_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_c_install_ubuntu.txt'))
 
     def test_install_macos(self):
-        self.repo.install('topic_a', 'macos')
+        self.repo.install(project='topic_a', os_name='macos')
         self.assertTrue(os.path.exists('topic_a_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_b_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_c_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_c_install_ubuntu.txt'))
 
     def test_install_all_ubuntu(self):
-        self.repo.install_all('ubuntu')
+        self.repo.install_all(os_name='ubuntu')
         self.assertTrue(os.path.exists('topic_a_install_ubuntu.txt'))
         self.assertTrue(os.path.exists('topic_b_install_ubuntu.txt'))
         self.assertFalse(os.path.exists('topic_c_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_c_install_ubuntu.txt'))
 
     def test_install_ubuntu(self):
-        self.repo.install('topic_a', 'ubuntu')
+        self.repo.install(project='topic_a', os_name='ubuntu')
         self.assertTrue(os.path.exists('topic_a_install_ubuntu.txt'))
         self.assertFalse(os.path.exists('topic_b_install_ubuntu.txt'))
         self.assertFalse(os.path.exists('topic_c_install_macos.txt'))
@@ -62,12 +63,12 @@ class DotfilesRepoTest(unittest.TestCase):
         # Test that generated symlinks to binaries are available:
         self.assertTrue(os.path.exists(self.repo.get_path() / 'generated/bin/executable_from_a.sh'))
         self.assertTrue(os.path.exists(self.repo.get_path() / 'generated/bin/executable_from_b.sh'))
-        self.assertTrue(os.path.exists(
-            self.repo.get_path() / 'generated/bin/another_executable_from_b.sh'))
-        self.assertFalse(os.path.exists(
-            self.repo.get_path() / 'generated/bin/executable_from_c.sh'))
-        self.assertFalse(os.path.exists(
-            self.repo.get_path() / 'generated/bin/another_executable_from_c.sh'))
+        self.assertTrue(
+            os.path.exists(self.repo.get_path() / 'generated/bin/another_executable_from_b.sh'))
+        self.assertFalse(os.path.exists(self.repo.get_path() /
+                                        'generated/bin/executable_from_c.sh'))
+        self.assertFalse(
+            os.path.exists(self.repo.get_path() / 'generated/bin/another_executable_from_c.sh'))
 
         # Test that generated symlinks to general files are available:
         home = Path.home()

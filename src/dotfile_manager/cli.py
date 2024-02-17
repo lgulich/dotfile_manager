@@ -2,7 +2,6 @@ from pathlib import Path
 import argparse
 import os
 
-from dotfile_manager.repo import Repo
 from dotfile_manager.version import __version__
 from dotfile_manager.config import DOTFILES_PATH_ENV_VARIABLE
 
@@ -15,7 +14,7 @@ def get_default_dotfiles_path() -> Path:
     if DOTFILES_PATH_ENV_VARIABLE in os.environ:
         return Path(os.environ[DOTFILES_PATH_ENV_VARIABLE])
 
-    return Path(os.getcwd())
+    return Path.cwd()
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -35,7 +34,14 @@ def create_parser() -> argparse.ArgumentParser:
     verb_parser.required = True
 
     install_parser = verb_parser.add_parser('install', help='Install dependencies of dotfiles')
-    install_parser.add_argument('project', type=str, nargs='?', help='Name of dotfile project that will be installed')
+    install_parser.add_argument('project',
+                                type=str,
+                                nargs='?',
+                                help='Name of dotfile project that will be installed')
+    install_parser.add_argument('-v',
+                                '--verbose',
+                                action='store_true',
+                                help='Enable verbose output')
 
     _ = verb_parser.add_parser('setup', help='Setup dotfiles')
     return parser

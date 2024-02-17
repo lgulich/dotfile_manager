@@ -1,14 +1,10 @@
 disable: true
-
 install_macos:
   - install.sh
-
 symlinks:
   symlink_original.txt: ~/symlink_replica_from_c.txt
-
 source:
   - environment_variables.sh
-
 bin:
   - executable_from_c.sh
   - helpers/another_executable_from_c.sh

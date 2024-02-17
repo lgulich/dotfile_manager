@@ -1,15 +1,11 @@
 install_macos:
   - install.sh
-
 install_ubuntu:
   - install.sh
-
 symlinks:
   symlink_original.txt: ~/symlink_replica_from_b.txt
-
 source:
   - environment_variables.sh
-
 bin:
   - executable_from_b.sh
   - helpers/another_executable_from_b.sh

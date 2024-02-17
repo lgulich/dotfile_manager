@@ -1,9 +1,6 @@
-from pathlib import Path
-import argparse
-import os
-
 from dotfile_manager.cli import create_parser
 from dotfile_manager.repo import Repo
+
 
 def main():
     parser = create_parser()
@@ -12,9 +9,9 @@ def main():
     repo = Repo(args.dotfiles)
     if args.verb == 'install':
         if args.project:
-            repo.install(args.project)
+            repo.install(args.project, args.verbose)
         else:
-            repo.install_all()
+            repo.install_all(args.verbose)
         return
 
     if args.verb == 'setup':
