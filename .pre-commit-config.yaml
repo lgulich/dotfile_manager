@@ -35,3 +35,11 @@ repos:
     hooks:
       - id: mypy
         additional_dependencies: [types-pyyaml]
+  - repo: local
+    hooks:
+      - id: unittests
+        name: unittests
+        entry: python3 -m unittest
+        language: system
+        pass_filenames: false
+        args: ["discover"]

@@ -1,11 +1,11 @@
-import setuptools
 import pathlib
 
-from src.dotfile_manager.version import __version__
+import setuptools
 
-file_path = Path(__file__)
-with open(file_path.parent / 'README.md', 'r') as fh:
-    LONG_DESCRIPTION = fh.read()
+from dotfile_manager.version import __version__
+
+PACKAGE_PATH = pathlib.Path(__file__).parent
+LONG_DESCRIPTION = (PACKAGE_PATH / 'README.md').read_text()
 
 setuptools.setup(
     name='dotfile_manager',

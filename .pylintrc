@@ -1,6 +1,7 @@
 [MESSAGES CONTROL]
 
 disable=
-  unspecified-encoding,
+  import-error,
+  missing-function-docstring,
   missing-module-docstring,
-  missing-function-docstring
+  unspecified-encoding,
