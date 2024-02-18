@@ -2,5 +2,6 @@
 
 set -e
 
-SCRIPT_PATH=$(dirname "$0")
-python3 -m pytest -v "${SCRIPT_PATH}"
+script_path=$(dirname "$0")
+cd ${script_path}
+python3 -m unittest

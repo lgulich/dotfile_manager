@@ -1,6 +1,5 @@
-from pathlib import Path
-
 import setuptools
+import pathlib
 
 from src.dotfile_manager.version import __version__
 

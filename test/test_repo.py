@@ -1,6 +1,6 @@
 import os
 import unittest
-from pathlib import Path
+import pathlib
 import glob
 import shutil
 
@@ -11,7 +11,7 @@ class DotfilesRepoTest(unittest.TestCase):
     """ Test the dotfiles 'Repo' class. """
 
     def setUp(self):
-        repo_path = Path(__file__).parent / 'test_data/dotfiles_repo'
+        repo_path = pathlib.Path(__file__).parent / 'test_data/dotfiles_repo'
         self.repo = Repo(repo_path)
         self._clean()
 
@@ -71,7 +71,7 @@ class DotfilesRepoTest(unittest.TestCase):
             os.path.exists(self.repo.get_path() / 'generated/bin/another_executable_from_c.sh'))
 
         # Test that generated symlinks to general files are available:
-        home = Path.home()
+        home = pathlib.Path.home()
         self.assertTrue(os.path.exists(home / 'symlink_replica_from_a.txt'))
         self.assertTrue(os.path.exists(home / 'symlink_replica_from_b.txt'))
         self.assertFalse(os.path.exists(home / 'symlink_replica_from_c.txt'))
@@ -81,7 +81,3 @@ class DotfilesRepoTest(unittest.TestCase):
         self.assertTrue(os.path.exists('topic_a_source.txt'))
         self.assertTrue(os.path.exists('topic_b_source.txt'))
         self.assertFalse(os.path.exists('topic_c_source.txt'))
-
-
-if __name__ == '__main__':
-    unittest.main()
