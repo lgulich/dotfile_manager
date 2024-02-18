@@ -24,8 +24,8 @@ setuptools.setup(
         'Natural Language :: English',
     ],
     license='Closed',
-    package_dir={'': 'src'},
-    packages=setuptools.find_packages('src'),
+    package_dir={'': 'dotfile_manager'},
+    packages=setuptools.find_packages('dotfile_manager'),
     include_package_data=True,
     package_data={'dotfile_manager': ['py.typed']},
     scripts=[
