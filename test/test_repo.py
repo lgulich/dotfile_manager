@@ -30,29 +30,33 @@ class DotfilesRepoTest(unittest.TestCase):
         shutil.rmtree(self.repo.path / 'generated', ignore_errors=True)
 
     def test_install_all_macos(self):
-        self.repo.install_all(os_name='macos')
+        self.repo.install_all(os_name='macos', verbose=True)
         self.assertTrue(os.path.exists('topic_a_install_macos.txt'))
         self.assertTrue(os.path.exists('topic_b_install_macos.txt'))
+        self.assertTrue(os.path.exists('topic_d_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_c_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_c_install_ubuntu.txt'))
 
     def test_install_macos(self):
-        self.repo.install(project='topic_a', os_name='macos')
+        self.repo.install(project_name='topic_a', os_name='macos', verbose=True)
         self.assertTrue(os.path.exists('topic_a_install_macos.txt'))
+        self.assertTrue(os.path.exists('topic_d_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_b_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_c_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_c_install_ubuntu.txt'))
 
     def test_install_all_ubuntu(self):
-        self.repo.install_all(os_name='ubuntu')
+        self.repo.install_all(os_name='ubuntu', verbose=True)
         self.assertTrue(os.path.exists('topic_a_install_ubuntu.txt'))
+        self.assertTrue(os.path.exists('topic_d_install_ubuntu.txt'))
         self.assertTrue(os.path.exists('topic_b_install_ubuntu.txt'))
         self.assertFalse(os.path.exists('topic_c_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_c_install_ubuntu.txt'))
 
     def test_install_ubuntu(self):
-        self.repo.install(project='topic_a', os_name='ubuntu')
+        self.repo.install(project_name='topic_a', os_name='ubuntu', verbose=True)
         self.assertTrue(os.path.exists('topic_a_install_ubuntu.txt'))
+        self.assertTrue(os.path.exists('topic_d_install_ubuntu.txt'))
         self.assertFalse(os.path.exists('topic_b_install_ubuntu.txt'))
         self.assertFalse(os.path.exists('topic_c_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_c_install_ubuntu.txt'))

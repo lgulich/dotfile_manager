@@ -1,0 +1,4 @@
+install_macos:
+  - install.sh
+install_ubuntu:
+  - install.sh

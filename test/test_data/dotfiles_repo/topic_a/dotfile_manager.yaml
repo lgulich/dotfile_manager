@@ -8,3 +8,5 @@ bin:
   - executable_from_a.sh
 source:
   - environment_variables.sh
+requires:
+  - topic_d

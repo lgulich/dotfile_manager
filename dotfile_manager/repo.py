@@ -2,7 +2,6 @@ from datetime import datetime
 from pathlib import Path
 import platform
 import shutil
-from typing import Dict
 
 from dotfile_manager.config import BIN_PATH, SOURCE_FILE_PATH
 from dotfile_manager.project import Project, InvalidProjectError
@@ -19,7 +18,7 @@ def get_os_name() -> str:
     raise ValueError
 
 
-def collect_projects(path: Path) -> Dict[str, Project]:
+def collect_projects(path: Path) -> dict[str, Project]:
     """ Collect all projects in the passed folder. """
     projects = {}
     for project_path in sorted(path.iterdir()):
@@ -39,21 +38,30 @@ class Repo:
 
     def __init__(self, path: Path):
         self.path: Path = path
-        self.projects: Dict[str, Project] = collect_projects(path)
+        self.projects: dict[str, Project] = collect_projects(path)
 
     def get_path(self) -> Path:
         return self.path
 
     def install_all(self, verbose: bool = False, os_name: str = get_os_name()):
-        for name, project in self.projects.items():
-            if project.is_disabled():
-                print(f'Project {name} is disabled - Skipping.')
-                continue
-            project.install(verbose=verbose, os_name=os_name)
+        for name in self.projects:
+            self.install(name, verbose, os_name)
         print('Successfully installed all projects.')
 
-    def install(self, project: str, verbose: bool = False, os_name: str = get_os_name()):
-        self.projects[project].install(verbose=verbose, os_name=os_name)
+    def install(self, project_name: str, verbose: bool = False, os_name: str = get_os_name()):
+        project = self.projects[project_name]
+
+        if project.is_disabled():
+            print(f'Project {project_name} is disabled - Skipping.')
+            return
+        if project.is_installed():
+            print(f'Project {project_name} is installed - Skipping.')
+            return
+
+        for requires_name in project.get_requires():
+            self.install(requires_name, verbose, os_name)
+
+        project.install(verbose=verbose, os_name=os_name)
 
     def setup_all(self):
         # Create folder into which all binaries will be symlinked.

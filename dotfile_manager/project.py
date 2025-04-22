@@ -43,12 +43,19 @@ class Project:
         if not self.config_path.exists():
             raise InvalidProjectError(f"Project config path {self.config_path}' does not exist")
         self.config = yaml.load(self.config_path.read_text(), Loader=yaml.FullLoader)
+        self._is_installed = False
 
     def get_name(self) -> str:
         return self.name
 
+    def get_requires(self) -> list[str]:
+        return self.config.get('requires', [])
+
     def is_disabled(self) -> bool:
         return self.config.get('disable', False)
+
+    def is_installed(self) -> bool:
+        return self._is_installed
 
     def install(self, os_name: str, verbose: bool) -> None:
         print(f'Installing project {self.name} for {os_name}...')
@@ -60,6 +67,8 @@ class Project:
 
         for install_script in install_scripts:
             run_script(self.path / install_script, verbose=verbose)
+
+        self._is_installed = True
         print(f'Successfully installed project {self.name} for {os_name}.')
 
     def create_symbolic_links(self) -> None:
