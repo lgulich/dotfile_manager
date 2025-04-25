@@ -30,7 +30,8 @@ class DotfilesRepoTest(unittest.TestCase):
         shutil.rmtree(self.repo.path / 'generated', ignore_errors=True)
 
     def test_install_all_macos(self):
-        self.repo.install_all(os_name='macos', verbose=True)
+        self.repo.set_os_name('macos')
+        self.repo.install_all(verbose=True)
         self.assertTrue(os.path.exists('topic_a_install_macos.txt'))
         self.assertTrue(os.path.exists('topic_b_install_macos.txt'))
         self.assertTrue(os.path.exists('topic_d_install_macos.txt'))
@@ -38,7 +39,8 @@ class DotfilesRepoTest(unittest.TestCase):
         self.assertFalse(os.path.exists('topic_c_install_ubuntu.txt'))
 
     def test_install_macos(self):
-        self.repo.install(project_name='topic_a', os_name='macos', verbose=True)
+        self.repo.set_os_name('macos')
+        self.repo.install(project_name='topic_a', verbose=True)
         self.assertTrue(os.path.exists('topic_a_install_macos.txt'))
         self.assertTrue(os.path.exists('topic_d_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_b_install_macos.txt'))
@@ -46,7 +48,8 @@ class DotfilesRepoTest(unittest.TestCase):
         self.assertFalse(os.path.exists('topic_c_install_ubuntu.txt'))
 
     def test_install_all_ubuntu(self):
-        self.repo.install_all(os_name='ubuntu', verbose=True)
+        self.repo.set_os_name('ubuntu')
+        self.repo.install_all(verbose=True)
         self.assertTrue(os.path.exists('topic_a_install_ubuntu.txt'))
         self.assertTrue(os.path.exists('topic_d_install_ubuntu.txt'))
         self.assertTrue(os.path.exists('topic_b_install_ubuntu.txt'))
@@ -54,7 +57,8 @@ class DotfilesRepoTest(unittest.TestCase):
         self.assertFalse(os.path.exists('topic_c_install_ubuntu.txt'))
 
     def test_install_ubuntu(self):
-        self.repo.install(project_name='topic_a', os_name='ubuntu', verbose=True)
+        self.repo.set_os_name('ubuntu')
+        self.repo.install(project_name='topic_a', verbose=True)
         self.assertTrue(os.path.exists('topic_a_install_ubuntu.txt'))
         self.assertTrue(os.path.exists('topic_d_install_ubuntu.txt'))
         self.assertFalse(os.path.exists('topic_b_install_ubuntu.txt'))
@@ -76,7 +80,8 @@ class DotfilesRepoTest(unittest.TestCase):
 
         # Test that generated symlinks to general files are available:
         home = pathlib.Path.home()
-        self.assertTrue(os.path.exists(home / 'symlink_replica_from_a.txt'))
+        self.assertTrue(os.path.exists(home / 'symlink_replica_one_from_a.txt'))
+        self.assertTrue(os.path.exists(home / 'symlink_replica_two_from_a.txt'))
         self.assertTrue(os.path.exists(home / 'symlink_replica_from_b.txt'))
         self.assertFalse(os.path.exists(home / 'symlink_replica_from_c.txt'))
 
