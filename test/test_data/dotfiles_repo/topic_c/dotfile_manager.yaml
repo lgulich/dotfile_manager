@@ -1,6 +1,7 @@
 disable: true
-install_macos:
-  - install.sh
+install:
+  macos:
+    - install.sh
 symlinks:
   symlink_original.txt: ~/symlink_replica_from_c.txt
 source:

@@ -1,6 +1,4 @@
-install_macos:
-  - install.sh
-install_ubuntu:
+install:
   - install.sh
 symlinks:
   symlink_original.txt: ~/symlink_replica_from_b.txt

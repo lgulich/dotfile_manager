@@ -1,9 +1,12 @@
-install_macos:
-  - install_macos.sh
-install_ubuntu:
-  - install_ubuntu.sh
+install:
+  macos:
+    - install_macos.sh
+  ubuntu:
+    - install_ubuntu.sh
 symlinks:
-  symlink_original.txt: ~/symlink_replica_from_a.txt
+  symlink_original.txt:
+    - ~/symlink_replica_one_from_a.txt
+    - ~/symlink_replica_two_from_a.txt
 bin:
   - executable_from_a.sh
 source:

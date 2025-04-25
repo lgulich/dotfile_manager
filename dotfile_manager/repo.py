@@ -18,17 +18,17 @@ def get_os_name() -> str:
     raise ValueError
 
 
-def collect_projects(path: Path) -> dict[str, Project]:
+def collect_projects(path: Path, os_name: str) -> dict[str, Project]:
     """ Collect all projects in the passed folder. """
     projects = {}
     for project_path in sorted(path.iterdir()):
         try:
-            project = Project(project_path)
+            project = Project(project_path, os_name)
         except InvalidProjectError:
             continue
         if project.is_disabled():
             continue
-        projects[project.name] = project
+        projects[project.get_name()] = project
     print(f'Found {len(projects)} projects.')
     return projects
 
@@ -36,19 +36,23 @@ def collect_projects(path: Path) -> dict[str, Project]:
 class Repo:
     """ Class used to represent a dotfile repository. """
 
-    def __init__(self, path: Path):
+    def __init__(self, path: Path, os_name: str = get_os_name()):
         self.path: Path = path
-        self.projects: dict[str, Project] = collect_projects(path)
+        self.projects: dict[str, Project] = collect_projects(path, os_name)
+
+    def set_os_name(self, os_name: str):
+        for project in self.projects.values():
+            project.set_os_name(os_name)
 
     def get_path(self) -> Path:
         return self.path
 
-    def install_all(self, verbose: bool = False, os_name: str = get_os_name()):
+    def install_all(self, verbose: bool = False):
         for name in self.projects:
-            self.install(name, verbose, os_name)
+            self.install(name, verbose)
         print('Successfully installed all projects.')
 
-    def install(self, project_name: str, verbose: bool = False, os_name: str = get_os_name()):
+    def install(self, project_name: str, verbose: bool = False):
         project = self.projects[project_name]
 
         if project.is_disabled():
@@ -59,9 +63,9 @@ class Repo:
             return
 
         for requires_name in project.get_requires():
-            self.install(requires_name, verbose, os_name)
+            self.install(requires_name, verbose)
 
-        project.install(verbose=verbose, os_name=os_name)
+        project.install(verbose=verbose)
 
     def setup_all(self):
         # Create folder into which all binaries will be symlinked.
