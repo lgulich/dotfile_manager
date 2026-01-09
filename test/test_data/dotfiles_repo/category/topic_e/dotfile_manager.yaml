@@ -1,0 +1,10 @@
+install:
+  macos:
+    - install_macos.sh
+  ubuntu:
+    - install_ubuntu.sh
+bin:
+  - executable_from_e.sh
+source:
+  - environment_variables.sh
+

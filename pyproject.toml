@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dotfile_manager"
-version = "0.4.0"
+dynamic = ["version"]
 authors = [
   { name="Lionel Gulich", email="lgulich@ethz.ch" },
 ]
@@ -30,3 +30,11 @@ dotfile_manager = "dotfile_manager.dotfile_manager:main"
 where = ["."]
 include = ["dotfile_manager*"]
 exclude = ["test*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "dotfile_manager.version.__version__"}
+
+[dependency-groups]
+dev = [
+    "twine>=6.2.0",
+]

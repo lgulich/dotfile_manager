@@ -35,6 +35,7 @@ class DotfilesRepoTest(unittest.TestCase):
         self.assertTrue(os.path.exists('topic_a_install_macos.txt'))
         self.assertTrue(os.path.exists('topic_b_install_macos.txt'))
         self.assertTrue(os.path.exists('topic_d_install_macos.txt'))
+        self.assertTrue(os.path.exists('topic_e_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_c_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_c_install_ubuntu.txt'))
 
@@ -53,6 +54,7 @@ class DotfilesRepoTest(unittest.TestCase):
         self.assertTrue(os.path.exists('topic_a_install_ubuntu.txt'))
         self.assertTrue(os.path.exists('topic_d_install_ubuntu.txt'))
         self.assertTrue(os.path.exists('topic_b_install_ubuntu.txt'))
+        self.assertTrue(os.path.exists('topic_e_install_ubuntu.txt'))
         self.assertFalse(os.path.exists('topic_c_install_macos.txt'))
         self.assertFalse(os.path.exists('topic_c_install_ubuntu.txt'))
 
@@ -73,6 +75,7 @@ class DotfilesRepoTest(unittest.TestCase):
         self.assertTrue(os.path.exists(self.repo.get_path() / 'generated/bin/executable_from_b.sh'))
         self.assertTrue(
             os.path.exists(self.repo.get_path() / 'generated/bin/another_executable_from_b.sh'))
+        self.assertTrue(os.path.exists(self.repo.get_path() / 'generated/bin/executable_from_e.sh'))
         self.assertFalse(os.path.exists(self.repo.get_path() /
                                         'generated/bin/executable_from_c.sh'))
         self.assertFalse(
@@ -89,4 +92,5 @@ class DotfilesRepoTest(unittest.TestCase):
         os.system(f'sh {self.repo.get_path()/"generated/sources.sh"}')
         self.assertTrue(os.path.exists('topic_a_source.txt'))
         self.assertTrue(os.path.exists('topic_b_source.txt'))
+        self.assertTrue(os.path.exists('topic_e_source.txt'))
         self.assertFalse(os.path.exists('topic_c_source.txt'))

@@ -19,16 +19,16 @@ def get_os_name() -> str:
 
 
 def collect_projects(path: Path, os_name: str) -> dict[str, Project]:
-    """ Collect all projects in the passed folder. """
+    """ Collect all projects recursively in the passed folder. """
     projects = {}
-    for project_path in sorted(path.iterdir()):
+    for project_path in sorted(x for x in path.glob('**/') if x.is_dir()):
         try:
             project = Project(project_path, os_name)
+            if not project.is_disabled():
+                projects[project.get_name()] = project
         except InvalidProjectError:
             continue
-        if project.is_disabled():
-            continue
-        projects[project.get_name()] = project
+
     print(f'Found {len(projects)} projects.')
     return projects
 

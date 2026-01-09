@@ -5,6 +5,11 @@ A dotfile manager to easily reuse configurations between linux and macOS.
 ## Installation
 
 ```
+uv tool install dotfile-manager
+```
+
+Or with pip:
+```
 pip install dotfile-manager
 ```
 
